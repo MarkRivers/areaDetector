@@ -20,13 +20,6 @@ public:
                  int priority, int stackSize);
     
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-    void postImage();
-
-private:
-    virtual asynStatus readImage();
-
-    epicsEventId startEventId;
-    epicsEventId stopEventId;
 
 };
 

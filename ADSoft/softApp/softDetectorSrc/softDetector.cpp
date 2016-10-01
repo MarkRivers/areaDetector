@@ -32,6 +32,31 @@
 
 static const char *driverName = "sofDetector";
 
+
+/** Called when asyn clients call pasynInt32->write().
+  * This function performs actions for some parameters, including ADAcquire.
+  * \param[in] pasynUser pasynUser structure that encodes reason and address.
+  * \param[in] value Value to write
+  */
+asynStatus softDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+    int function = pasynUser->reason;
+    int adstatus;
+    int acquiring;
+    int imageMode;
+    asynStatus status = asynSuccess;
+    asynPrint(pasynUser, ASYN_TRACE_FLOW,
+              "%s:writeInt32: in writeInt32\n\n\n\n",
+              driverName);
+
+    /* Ensure asynStatus is set correctly before we set acquire.*/
+    getIntegerParam(ADStatus, &adstatus);
+    getIntegerParam(ADAcquire, &acquiring);
+    callParamCallbacks();
+}
+
+
+
 /** Constructor for softDetector; most parameters are simply passed to ADDriver::ADDriver.
   * \param[in] portName The name of the asyn port to be created
   * \param[in] maxBuffers The maximum number of NDArray buffers that the NDArrayPool for this driver
@@ -48,15 +73,15 @@ softDetector::softDetector(const char *portName,
                  int maxBuffers, size_t maxMemory,
                  int priority, int stackSize)
 
-    : ADDriver(portName,
+    : ADDriver(portName, 1, 0,
                maxBuffers, maxMemory,
                0, 0, /* No interface beyond those defined in ADDriver.cpp */
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
-               priority, stackSize),
-               pRaw(NULL)
+               priority, stackSize)
 
 {
-    int status asynSuccess;
+
+    int status = asynSuccess;
     const char *functionName = "softDetector";
 
     status  = setStringParam (ADManufacturer, "Soft Detector");

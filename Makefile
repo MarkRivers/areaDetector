@@ -161,6 +161,11 @@ DIRS := $(DIRS) $(FIREWIREDCAM)
 $(FIREWIREDCAM)_DEPEND_DIRS += $(ADCORE)
 endif
 
+ifdef ADSOFT
+DIRS := $(DIRS) $(ADSOFT)
+$(ADSOFT)_DEPEND_DIRS += $(ADCORE)
+endif
+
 include $(TOP)/configure/RULES_TOP
 
 uninstallTargets = $(foreach dir, $(DIRS), $(dir)$(DIVIDER)uninstall)

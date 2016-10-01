@@ -22,7 +22,7 @@ epicsEnvSet("CBUFFS", "500")
 # The search path for database files
 epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
 
-asynSetMinTimerPeriod(0.001)
+#asynSetMinTimerPeriod(0.001)
 
 # The EPICS environment variable EPICS_CA_MAX_ARRAY_BYTES needs to be set to a value at least as large
 # as the largest image that the standard arrays plugin will send.
@@ -43,7 +43,7 @@ softDetectorConfig("$(PORT)", $(XSIZE), $(YSIZE), 1, 0, 0)
 dbLoadRecords("$(ADEXAMPLE)/db/softDetector.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 
 # Create a second softDetector driver
-simDetectorConfig("SOFT2", 300, 200, 1, 50, 50000000)
+softDetectorConfig("SOFT2", 300, 200, 1, 50, 50000000)
 dbLoadRecords("$(ADEXAMPLE)/db/softDetector.template","P=$(PREFIX),R=cam2:,PORT=SOFT2,ADDR=0,TIMEOUT=1")
 
 # Load an NDFile database.  This is not supported for the softDetector which does not write files.
@@ -71,7 +71,7 @@ dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image2:,PORT=Image2,ADDR=0,
 < $(ADCORE)/iocBoot/commonPlugins.cmd
 set_requestfile_path("$(ADSOFT)/softApp/Db")
 
-asynSetTraceIOMask("$(PORT)",0,2)
+#asynSetTraceIOMask("$(PORT)",0,2)
 asynSetTraceMask("$(PORT)",0,255)
 #asynSetTraceIOMask("FileNetCDF",0,2)
 #asynSetTraceMask("FileNetCDF",0,255)
