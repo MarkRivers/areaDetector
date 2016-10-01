@@ -1,0 +1,3 @@
+medm -x -macro "P=djv:, R=cam1:" softDetector.adl &
+../../bin/linux-x86_64/softDetectorApp st.cmd.linux
+

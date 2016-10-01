@@ -14,7 +14,7 @@
 # Set CHECK_RELEASE to NO to disable checking completely.
 # Set CHECK_RELEASE to WARN to perform consistency checking but
 #   continue building anyway if conflicts are found.
-CHECK_RELEASE = NO
+CHECK_RELEASE = YES
 
 # Set this when you only want to compile this application
 #   for a subset of the cross-compiled target architectures
@@ -32,5 +32,11 @@ CHECK_RELEASE = NO
 #   take effect.
 #IOCS_APPL_TOP = </IOC/path/to/application/top>
 
--include $(AREA_DETECTOR)/configure/CONFIG_SITE.local
--include $(AREA_DETECTOR)/configure/CONFIG_SITE.local.$(EPICS_HOST_ARCH)
+# Get settings from AREA_DETECTOR, so we only have to configure once for all detectors if we want to
+-include $(AREA_DETECTOR)/configure/CONFIG_SITE
+-include $(AREA_DETECTOR)/configure/CONFIG_SITE.$(EPICS_HOST_ARCH)
+-include $(AREA_DETECTOR)/configure/CONFIG_SITE.$(EPICS_HOST_ARCH).Common
+ifdef T_A
+  -include $(AREA_DETECTOR)/configure/CONFIG_SITE.Common.$(T_A)
+  -include $(AREA_DETECTOR)/configure/CONFIG_SITE.$(EPICS_HOST_ARCH).$(T_A)
+endif

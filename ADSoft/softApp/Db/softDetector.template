@@ -1,0 +1,8 @@
+#===================================================
+# Template file: softDetector.template
+# Database for the records specific to the soft detector driver
+# David Vine
+# September 28, 2016
+
+include ADBase.template
+
