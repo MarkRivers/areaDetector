@@ -20,12 +20,28 @@ public:
                  int priority, int stackSize);
     
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    void startTask();
+
+protected:
+    int postMode;
+    int dataSourcePVName; /* Name of waveform PV containing image data. */
+
+#define FIRST_SOFT_DETECTOR_PARAM postMode
+#define LAST_SOFT_DETECTOR_PARAM dataSourcePVName
+
+private:
+    epicsEventId startEventId;
+    epicsEventId stopEventId;
+    NDArray *pRaw;
 
 };
 
 typedef enum {
-    Overwrite,
-    Append,
-}WriteModes_t;
+    postModeOverwrite,
+    postModeAppend,
+}postModes_t;
 
+#define postModeString         "POST_MODE"
+#define dataSourcePVNameString "DATA_SOURCE_PV_NAME"
 
+#define NUM_SOFT_DETECTOR_PARAMS ((int)(&LAST_SOFT_DETECTOR_PARAM - &FIRST_SOFT_DETECTOR_PARAM + 1))

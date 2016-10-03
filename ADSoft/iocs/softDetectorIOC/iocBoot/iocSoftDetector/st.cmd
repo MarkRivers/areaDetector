@@ -72,7 +72,7 @@ dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image2:,PORT=Image2,ADDR=0,
 set_requestfile_path("$(ADSOFT)/softApp/Db")
 
 #asynSetTraceIOMask("$(PORT)",0,2)
-asynSetTraceMask("$(PORT)",0,255)
+#asynSetTraceMask("$(PORT)",0,255)
 #asynSetTraceIOMask("FileNetCDF",0,2)
 #asynSetTraceMask("FileNetCDF",0,255)
 #asynSetTraceMask("FileNexus",0,255)
