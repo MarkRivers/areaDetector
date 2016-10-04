@@ -12,7 +12,6 @@
 
 #include <epicsEvent.h>
 #include "ADDriver.h"
-#include "asynPortDriver.h"
 
 class epicsShareClass softDetector : public ADDriver{
 public:

@@ -284,7 +284,8 @@ softDetector::softDetector(const char *portName,
 
     : ADDriver(portName, 1, NUM_SOFT_DETECTOR_PARAMS,
                maxBuffers, maxMemory,
-               0, 0, /* No interface beyond those defined in ADDriver.cpp */
+               asynInt8ArrayMask | asynInt16ArrayMask | asynInt32ArrayMask | asynFloat32ArrayMask | asynFloat64ArrayMask, 
+               asynInt8ArrayMask | asynInt16ArrayMask | asynInt32ArrayMask | asynFloat32ArrayMask | asynFloat64ArrayMask, 
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize)
 
@@ -319,7 +320,7 @@ softDetector::softDetector(const char *portName,
     createParam(arrayInUInt32String,   asynParamInt32Array,   &arrayInUInt32);
     createParam(arrayInFloat32String,  asynParamFloat32Array, &arrayInFloat32);
     createParam(arrayInFloat64String,  asynParamFloat64Array, &arrayInFloat64);
-/*
+
     status  = setStringParam (ADManufacturer, "Soft Detector");
     status |= setStringParam (ADModel, "Software Detector");
     status |= setIntegerParam(ADMaxSizeX, 2000);
@@ -346,7 +347,7 @@ softDetector::softDetector(const char *portName,
 	printf("%s: Unable to set camera prameters.", functionName);
 	return;
     }
-*/
+
     /* Create the thread that updates the images */
     status = (epicsThreadCreate("softDetectorTask",
                                 epicsThreadPriorityMedium,
