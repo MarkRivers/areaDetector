@@ -34,17 +34,17 @@ epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
 # Do not set EPICS_CA_MAX_ARRAY_BYTES to a value much larger than that required, because EPICS Channel Access actually
 # allocates arrays of this size every time it needs a buffer larger than 16K.
 # Uncomment the following line to set it in the IOC.
-epicsEnvSet("EPICS_CA_MAX_ARRAY_BYTES", "10000000")
+epicsEnvSet("EPICS_CA_MAX_ARRAY_BYTES", "13000000")
 
 # Create a softDetector driver
 # softDetectorConfig(const char *portName, int maxSizeX, int maxSizeY, int dataType,
 #                   int maxBuffers, int maxMemory, int priority, int stackSize)
 softDetectorConfig("$(PORT)", $(XSIZE), $(YSIZE), 1, 0, 0)
-dbLoadRecords("$(ADEXAMPLE)/db/softDetector.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ADSOFT)/db/softDetector.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1,NCHANS=12000000")
 
 # Create a second softDetector driver
 softDetectorConfig("SOFT2", 300, 200, 1, 50, 50000000)
-dbLoadRecords("$(ADEXAMPLE)/db/softDetector.template","P=$(PREFIX),R=cam2:,PORT=SOFT2,ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ADSOFT)/db/softDetector.template","P=$(PREFIX),R=cam2:,PORT=SOFT2,ADDR=0,TIMEOUT=1,NCHANS=12000000")
 
 # Load an NDFile database.  This is not supported for the softDetector which does not write files.
 #dbLoadRecords("NDFile.template","P=$(PREFIX),R=cam1:,PORT=SOFT1,ADDR=0,TIMEOUT=1")

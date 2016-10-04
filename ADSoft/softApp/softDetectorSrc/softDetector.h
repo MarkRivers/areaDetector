@@ -12,27 +12,29 @@
 
 #include <epicsEvent.h>
 #include "ADDriver.h"
+#include "asynPortDriver.h"
 
-class epicsShareClass softDetector : public ADDriver {
+class epicsShareClass softDetector : public ADDriver{
 public:
     softDetector(const char *portName,
                  int maxBuffers, size_t maxMemory,
                  int priority, int stackSize);
     
-    virtual asynStatus writeInt8Array(asynUser *pasynUserm epicsInt8, value);
-    virtual asynStatus writeUInt8Array(asynUser *pasynUserm epicsUInt8, value);
-    virtual asynStatus writeInt16Array(asynUser *pasynUserm epicsInt16, value);
-    virtual asynStatus writeUInt16Array(asynUser *pasynUserm epicsUInt16, value);
+    virtual asynStatus writeInt8Array(asynUser *pasynUser, epicsInt8 *value, size_t nElements);
+    virtual asynStatus writeUInt8Array(asynUser *pasynUser, epicsUInt8 *value, size_t nElements);
+    virtual asynStatus writeInt16Array(asynUser *pasynUser, epicsInt16 *value, size_t nElements);
+    virtual asynStatus writeUInt16Array(asynUser *pasynUser, epicsUInt16 *value, size_t nElements);
+    virtual asynStatus writeInt32Array(asynUser *pasynUser, epicsInt32 *value, size_t nElements);
+    virtual asynStatus writeUInt32Array(asynUser *pasynUser, epicsUInt32 *value, size_t nElements);
+    virtual asynStatus writeFloat32Array(asynUser *pasynUser, epicsFloat32 *value, size_t nElements);
+    virtual asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-    virtual asynStatus writeUInt32(asynUser *pasynUser, epicsUInt32 value);
-    virtual asynStatus writeFloat32(asynUser *pasynUser, epicsFloat32 value);
-    virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     void startTask();
 
 protected:
     int arrayMode;      /* 0: Overwrite, 1: Append */
     int arrayInInt8;    /* Input array of Int8     */
-    int arrayInIntU8;   /* Input array of UInt8    */
+    int arrayInUInt8;   /* Input array of UInt8    */
     int arrayInInt16;   /* Input array of Int16    */
     int arrayInUInt16;  /* Input array of UInt16   */
     int arrayInInt32;   /* Input array of Int32    */
@@ -51,11 +53,11 @@ private:
 
 #define arrayModeString       "ARRAY_MODE"         /* (asynInt32,        r/w) Overwrite or append */
 #define arrayInInt8String     "ARRAY_IN_INT8"      /* (asynInt8Array,    r/w) holds image data */
-#define arrayInUInt8String    "ARRAY_IN_UINT8"     /* (asynUInt8Array,   r/w) holds image data */
+#define arrayInUInt8String    "ARRAY_IN_UINT8"     /* (asynInt8Array,   r/w) holds image data */
 #define arrayInInt16String    "ARRAY_IN_INT16"     /* (asynInt16Array,   r/w) holds image data */
-#define arrayInUInt16String   "ARRAY_IN_UINT16"    /* (asynUInt16Array,  r/w) holds image data */
+#define arrayInUInt16String   "ARRAY_IN_UINT16"    /* (asynInt16Array,  r/w) holds image data */
 #define arrayInInt32String    "ARRAY_IN_INT32"     /* (asynInt32Array,   r/w) holds image data */
-#define arrayInUInt32String   "ARRAY_IN_UINT32"    /* (asynUInt32Array,  r/w) holds image data */
+#define arrayInUInt32String   "ARRAY_IN_UINT32"    /* (asynInt32Array,  r/w) holds image data */
 #define arrayInFloat32String  "ARRAY_IN_FLOAT32"   /* (asynFloat32Array, r/w) holds image data */
 #define arrayInFloat64String  "ARRAY_IN_FLOAT64"   /* (asynFloat64Array, r/w) holds image data */
 

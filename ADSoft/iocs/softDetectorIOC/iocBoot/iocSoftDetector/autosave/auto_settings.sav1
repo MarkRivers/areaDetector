@@ -1,4 +1,70 @@
-# autosave R5.3	Automatically generated - DO NOT MODIFY - 161002-192632
+# autosave R5.3	Automatically generated - DO NOT MODIFY - 161004-001024
+djv:cam1:BinX 1
+djv:cam1:BinY 1
+djv:cam1:MinX 0
+djv:cam1:MinY 0
+djv:cam1:SizeX 1000
+djv:cam1:SizeY 1000
+djv:cam1:ReverseX 0
+djv:cam1:ReverseY 0
+djv:cam1:AcquireTime 0.001
+djv:cam1:AcquirePeriod 0.005
+djv:cam1:Gain 1
+djv:cam1:FrameType 0
+djv:cam1:ImageMode 2
+djv:cam1:TriggerMode 0
+djv:cam1:NumExposures 1
+djv:cam1:NumImages 100
+djv:cam1:ShutterMode 0
+djv:cam1:ShutterOpenDelay 0
+djv:cam1:ShutterCloseDelay 0
+djv:cam1:ShutterOpenEPICS.OUT 
+djv:cam1:ShutterCloseEPICS.OUT 
+djv:cam1:ShutterOpenEPICS.OCAL 1
+djv:cam1:ShutterCloseEPICS.OCAL 0
+djv:cam1:ShutterStatusEPICS_RBV.INP test CP MS
+djv:cam1:ShutterStatusEPICS_RBV.ZRVL 0
+djv:cam1:ShutterStatusEPICS_RBV.ONVL 1
+djv:cam1:Temperature 25
+djv:cam1:ReadStatus.SCAN 0
+djv:cam1:DataType 1
+djv:cam1:ColorMode 0
+djv:cam1:ArrayCallbacks 0
+djv:cam1:NDAttributesFile 0
+djv:cam1:PoolUsedMem.SCAN 6
+djv:cam2:BinX 1
+djv:cam2:BinY 1
+djv:cam2:MinX 0
+djv:cam2:MinY 0
+djv:cam2:SizeX 1000
+djv:cam2:SizeY 1000
+djv:cam2:ReverseX 0
+djv:cam2:ReverseY 0
+djv:cam2:AcquireTime 0.001
+djv:cam2:AcquirePeriod 0.005
+djv:cam2:Gain 1
+djv:cam2:FrameType 0
+djv:cam2:ImageMode 2
+djv:cam2:TriggerMode 0
+djv:cam2:NumExposures 1
+djv:cam2:NumImages 100
+djv:cam2:ShutterMode 0
+djv:cam2:ShutterOpenDelay 0
+djv:cam2:ShutterCloseDelay 0
+djv:cam2:ShutterOpenEPICS.OUT 
+djv:cam2:ShutterCloseEPICS.OUT 
+djv:cam2:ShutterOpenEPICS.OCAL 1
+djv:cam2:ShutterCloseEPICS.OCAL 0
+djv:cam2:ShutterStatusEPICS_RBV.INP test CP MS
+djv:cam2:ShutterStatusEPICS_RBV.ZRVL 0
+djv:cam2:ShutterStatusEPICS_RBV.ONVL 1
+djv:cam2:Temperature 25
+djv:cam2:ReadStatus.SCAN 0
+djv:cam2:DataType 1
+djv:cam2:ColorMode 0
+djv:cam2:ArrayCallbacks 0
+djv:cam2:NDAttributesFile 0
+djv:cam2:PoolUsedMem.SCAN 6
 djv:image1:NDArrayPort SOFT1
 djv:image1:NDArrayAddress 0
 djv:image1:EnableCallbacks 1

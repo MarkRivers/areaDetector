@@ -27,6 +27,7 @@
 #include <iocsh.h>
 
 #include "ADDriver.h"
+#include "asynPortDriver.h"
 #include <epicsExport.h>
 #include "softDetector.h"
 
@@ -179,6 +180,46 @@ void softDetector::startTask()
     }
 }
 
+asynStatus softDetector::writeInt8Array(asynUser *pasynUser, epicsInt8 *value, size_t nElements)
+{
+    printf("%s:int8", driverName);
+    return asynSuccess;
+}
+asynStatus softDetector::writeUInt8Array(asynUser *pasynUser, epicsUInt8 *value, size_t nElements)
+{
+    printf("%s:uint8", driverName);
+    return asynSuccess;
+}
+asynStatus softDetector::writeInt16Array(asynUser *pasynUser, epicsInt16 *value, size_t nElements)
+{
+    printf("%s: int16", driverName);
+    return asynSuccess;
+}
+asynStatus softDetector::writeUInt16Array(asynUser *pasynUser, epicsUInt16 *value, size_t nElements)
+{
+    printf("%s: uint16", driverName);
+    return asynSuccess;
+}
+asynStatus softDetector::writeInt32Array(asynUser *pasynUser, epicsInt32 *value, size_t nElements)
+{
+    printf("%s: int32", driverName);
+    return asynSuccess;
+}
+asynStatus softDetector::writeUInt32Array(asynUser *pasynUser, epicsUInt32 *value, size_t nElements)
+{
+    printf("%s: uint32", driverName);
+    return asynSuccess;
+}
+asynStatus softDetector::writeFloat32Array(asynUser *pasynUser, epicsFloat32 *value, size_t nElements)
+{
+    printf("%s: float32", driverName);
+    return asynSuccess;
+}
+asynStatus softDetector::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements)
+{
+    printf("%s: float64", driverName);
+    return asynSuccess;
+}
 /** Called when asyn clients call pasynInt32->write().
   * This function performs actions for some parameters, including ADAcquire.
   * \param[in] pasynUser pasynUser structure that encodes reason and address.
@@ -271,14 +312,14 @@ softDetector::softDetector(const char *portName,
 
     createParam(arrayModeString,       asynParamInt32,        &arrayMode);
     createParam(arrayInInt8String,     asynParamInt8Array,    &arrayInInt8);
-    createParam(arrayInUInt8String,    asynParamUInt8Array,   &arrayInUInt8);
+    createParam(arrayInUInt8String,    asynParamInt8Array,    &arrayInUInt8);
     createParam(arrayInInt16String,    asynParamInt16Array,   &arrayInInt16);
-    createParam(arrayInUInt16String,   asynParamUInt16Array,  &arrayInUInt16);
+    createParam(arrayInUInt16String,   asynParamInt16Array,   &arrayInUInt16);
     createParam(arrayInInt32String,    asynParamInt32Array,   &arrayInInt32);
-    createParam(arrayInUInt32String,   asynParamUInt32Array,  &arrayInUInt32);
+    createParam(arrayInUInt32String,   asynParamInt32Array,   &arrayInUInt32);
     createParam(arrayInFloat32String,  asynParamFloat32Array, &arrayInFloat32);
     createParam(arrayInFloat64String,  asynParamFloat64Array, &arrayInFloat64);
-
+/*
     status  = setStringParam (ADManufacturer, "Soft Detector");
     status |= setStringParam (ADModel, "Software Detector");
     status |= setIntegerParam(ADMaxSizeX, 2000);
@@ -305,7 +346,7 @@ softDetector::softDetector(const char *portName,
 	printf("%s: Unable to set camera prameters.", functionName);
 	return;
     }
-
+*/
     /* Create the thread that updates the images */
     status = (epicsThreadCreate("softDetectorTask",
                                 epicsThreadPriorityMedium,

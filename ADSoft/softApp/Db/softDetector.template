@@ -9,7 +9,7 @@ include ADBase.template
 record(bi, "$(P)$(R)arrayMode")
 {
     field(DTYP, "asynInt32")
-    field(INP, "@asyn($(PORT),$(ADDRESS),$(TIMEOUT))ARRAY_MODE)
+    field(INP, "@asyn($(PORT),$(ADDR),$(TIMEOUT))ARRAY_MODE")
     field(ZNAM, "Overwrite")
     field(ONAM, "Append")
     field(ZSV, "NO_ALARM") # AND_NO_SURPRISES
@@ -28,7 +28,7 @@ record(waveform, "$(P)$(R)arrayInInt8")
 
 record(waveform, "$(P)$(R)arrayInUInt8")
 {
-    field(DTYP, "asynUInt8ArrayIn")
+    field(DTYP, "asynInt8ArrayIn")
     field(INP, "@asyn($(PORT),$(ADDR),$(TIMEOUT))ARRAY_IN_UINT8")
     field(NELM, "$(NCHANS)")
     field(FTVL, "UCHAR")
@@ -46,7 +46,7 @@ record(waveform, "$(P)$(R)arrayInInt16")
 
 record(waveform, "$(P)$(R)arrayInUInt16")
 {
-    field(DTYP, "asynUInt16ArrayIn")
+    field(DTYP, "asynInt16ArrayIn")
     field(INP, "@asyn($(PORT),$(ADDR),$(TIMEOUT))ARRAY_IN_UINT16")
     field(NELM, "$(NCHANS)")
     field(FTVL, "USHORT")
@@ -64,7 +64,7 @@ record(waveform, "$(P)$(R)arrayInInt32")
 
 record(waveform, "$(P)$(R)arrayInUInt32")
 {
-    field(DTYP, "asynUInt32ArrayIn")
+    field(DTYP, "asynInt32ArrayIn")
     field(INP, "@asyn($(PORT),$(ADDR),$(TIMEOUT))ARRAY_IN_UINT32")
     field(NELM, "$(NCHANS)")
     field(FTVL, "ULONG")
