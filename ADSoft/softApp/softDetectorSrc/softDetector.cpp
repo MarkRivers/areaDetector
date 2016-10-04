@@ -269,13 +269,20 @@ softDetector::softDetector(const char *portName,
          return;
      }
 
-    createParam(postModeString, asynParamInt32, &postMode);
-    createParam(dataSourcePVNameString, asynParamOctet, &dataSourcePVName);
+    createParam(arrayModeString,       asynParamInt32,        &arrayMode);
+    createParam(arrayInInt8String,     asynParamInt8Array,    &arrayInInt8);
+    createParam(arrayInUInt8String,    asynParamUInt8Array,   &arrayInUInt8);
+    createParam(arrayInInt16String,    asynParamInt16Array,   &arrayInInt16);
+    createParam(arrayInUInt16String,   asynParamUInt16Array,  &arrayInUInt16);
+    createParam(arrayInInt32String,    asynParamInt32Array,   &arrayInInt32);
+    createParam(arrayInUInt32String,   asynParamUInt32Array,  &arrayInUInt32);
+    createParam(arrayInFloat32String,  asynParamFloat32Array, &arrayInFloat32);
+    createParam(arrayInFloat64String,  asynParamFloat64Array, &arrayInFloat64);
 
     status  = setStringParam (ADManufacturer, "Soft Detector");
     status |= setStringParam (ADModel, "Software Detector");
-    status |= setIntegerParam(ADMaxSizeX, 1000);
-    status |= setIntegerParam(ADMaxSizeY, 1000);
+    status |= setIntegerParam(ADMaxSizeX, 2000);
+    status |= setIntegerParam(ADMaxSizeY, 2000);
     status |= setIntegerParam(ADMinX, 0); 
     status |= setIntegerParam(ADMinY, 0); 
     status |= setIntegerParam(ADBinX, 1); 
@@ -291,7 +298,7 @@ softDetector::softDetector(const char *portName,
     status |= setDoubleParam (ADAcquireTime, .001);
     status |= setDoubleParam (ADAcquirePeriod, .005);
     status |= setIntegerParam(ADNumImages, 100);
-    status |= setIntegerParam(postMode, 0);
+    status |= setIntegerParam(arrayMode, 0);
 
 
     if (status) {
