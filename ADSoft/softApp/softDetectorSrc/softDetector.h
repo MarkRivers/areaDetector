@@ -15,7 +15,7 @@
 
 class epicsShareClass softDetector : public ADDriver{
 public:
-    softDetector(const char *portName,
+    softDetector(const char *portName, 
                  int maxBuffers, size_t maxMemory,
                  int priority, int stackSize);
     
@@ -28,6 +28,7 @@ public:
     virtual asynStatus writeFloat32Array(asynUser *pasynUser, epicsFloat32 *value, size_t nElements);
     virtual asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements);
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    virtual void setShutter(int open);
     void startTask();
 
 protected:
@@ -47,6 +48,7 @@ protected:
 private:
     epicsEventId startEventId;
     epicsEventId stopEventId;
+    NDArray *pRaw;
 
 };
 

@@ -27,33 +27,35 @@
 #include <iocsh.h>
 
 #include "ADDriver.h"
-#include "asynPortDriver.h"
 #include <epicsExport.h>
 #include "softDetector.h"
 
 static const char *driverName = "softDetector";
 
+void softDetector::setShutter(int open)
+{
+    int shutterMode;
+    getIntegerParam(ADShutterMode, &shutterMode);
+    if (shutterMode == ADShutterModeDetector){
+        setIntegerParam(ADShutterStatus, open);
+    } else {
+        ADDriver::setShutter(open);
+    }
+}
+
+
 static void startTaskC(void *drvPvt)
 {
     softDetector *pPvt = (softDetector *)drvPvt;
-
     pPvt->startTask();
 }
 
 void softDetector::startTask()
 {
-    asynStatus imageStatus;
-    int imageCounter;
-    int numImages, numImagesCounter;
-    int imageMode;
-    int arrayCallbacks;
+    int status = asynSuccess;
     int acquire;
-    NDArray *pImage;
-    double acquirePeriod, delay;
-    epicsTimeStamp startTime, endTime;
-    double elapsedTime;
     const char* functionName = "startTask";
-    printf("%s:%s: arriived in funcction.\n", driverName, functionName);
+    printf("%s:%s: arrived in function.\n", driverName, functionName);
 
     this->lock();
     /* Loop forever */
@@ -65,7 +67,6 @@ void softDetector::startTask()
          * started. */
         if (!acquire) {
             setIntegerParam(ADStatus, ADStatusIdle);
-            callParamCallbacks();
             /* Release lock while we wait for an event that says acquire has started, then lock
              * again. */
              printf("%s:%s: waiting for acquire to start\n", driverName, functionName);
@@ -75,15 +76,10 @@ void softDetector::startTask()
              epicsEventWait(this->startEventId);
              printf("%s:%s: now we're acquiring again.\n", driverName, functionName);
              this->lock();
+             acquire = 1;
+             setStringParam(ADStatusMessage, "Acquiring Data");
              setIntegerParam(ADNumImagesCounter, 0);
         }
-
-        /* We are acquiring */
-        /* Get the current time. */
-        epicsTimeGetCurrent(&startTime);
-        
-        /* Get the exposure parameters */
-        getDoubleParam(ADAcquirePeriod, &acquirePeriod);
 
         setIntegerParam(ADStatus, ADStatusAcquire);
 
@@ -93,9 +89,11 @@ void softDetector::startTask()
         /* Call the callbacks to update any changes. */
         callParamCallbacks();
 
-        /* Read the image. */
-        /* imageStatus = readImage(); */
-        imageStatus = asynSuccess;
+        this->unlock();
+        status = epicsEventWaitWithTimeout(this->stopEventId, 1.0);
+        this->lock();
+        
+        setIntegerParam(ADStatus, ADStatusReadout);
 
         /* Close the shutter. */
         setShutter(ADShutterClosed);
@@ -103,80 +101,16 @@ void softDetector::startTask()
         /* Call the callbacks to update any changes. */
         callParamCallbacks();
 
-        
-        /* if (imageStatus == asynSuccess) */
-        if (false)
-        {
-            pImage = this->pArrays[0];
-            
-            /* Get the current parameters. */
-            getIntegerParam(NDArrayCounter, &imageCounter);
-            getIntegerParam(ADNumImages, &numImages);
-            getIntegerParam(ADNumImagesCounter, &numImagesCounter);
-            getIntegerParam(ADImageMode, &imageMode);
-            getIntegerParam(NDArrayCallbacks, &arrayCallbacks);
-            imageCounter++;
-            numImagesCounter++;
-            setIntegerParam(NDArrayCounter, imageCounter);
-            setIntegerParam(ADNumImagesCounter, numImagesCounter);
-
-            /* Put the time stamp and frame number into the buffer */
-            pImage->uniqueId = imageCounter;
-            pImage->timeStamp = startTime.secPastEpoch + startTime.nsec/1.e9;
-            updateTimeStamp(&pImage->epicsTS);
-
-            /* Get any attributes defined for this driver */
-            this->getAttributes(pImage->pAttributeList);
-
-            if (arrayCallbacks)
-            {
-                /* Call the NDArray callback */
-                /* Must release the lock here, or we can get into a deadlock because we can block on
-                 * the plugin lock, and the plugin can be calling us. */
-                 this->unlock();
-                 printf("%s:%s: calling imageData callback\n", driverName, functionName);
-                 asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
-                 "%s:%s: calling imageData callback\n", driverName, functionName);
-                 doCallbacksGenericPointer(pImage, NDArrayData, 0);
-                 this->lock();
-            }
-        }
-
-        /* See if acquisition is done */
-        if ((imageStatus != asynSuccess) ||
-            (imageMode == ADImageSingle) ||
-            ((imageMode == ADImageMultiple) &&
-             (numImagesCounter >= numImages)))
-        {
-            setIntegerParam(ADAcquire, 0);
-            asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
-                "%s:%s: acquisition completed\n", driverName, functionName);
-            printf("%s:%s: acquisition completed\n", driverName, functionName);
-        }
-
-        /* Call the callbacks to update any changes */
+        setStringParam(ADStatusMessage, "Waiting for acquisition.");
+        setIntegerParam(ADStatus, ADStatusIdle);
         callParamCallbacks();
-        getIntegerParam(ADAcquire, &acquire);
 
-        /* If we are acquiring then sleep for the acquire period minus the elapsed time. */
-        if (acquire)
-        {
-            epicsTimeGetCurrent(&endTime);
-            elapsedTime = epicsTimeDiffInSeconds(&endTime, &startTime);
-            delay = acquirePeriod-elapsedTime;
-            asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
-                "%s:%s: delay=%f\n", driverName, functionName, delay);
-            printf("%s:%s: delay=%f\n", driverName, functionName, delay);
-            if (delay>=0.0)
-            {
-                /* We set the status to readOut to indicate we are in the period delay */
-                setIntegerParam(ADStatus, ADStatusWaiting);
-                callParamCallbacks();
-                this->unlock();
-                epicsEventWaitWithTimeout(this->stopEventId, delay);
-                this->lock();
-            }
-        }
+        acquire=0;
+        setIntegerParam(ADAcquire, acquire);
+
+        callParamCallbacks();
+
+        
     }
 }
 
@@ -212,6 +146,10 @@ asynStatus softDetector::writeUInt32Array(asynUser *pasynUser, epicsUInt32 *valu
 }
 asynStatus softDetector::writeFloat32Array(asynUser *pasynUser, epicsFloat32 *value, size_t nElements)
 {
+
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER,
+            "%s:writeInt32 \n",
+            driverName);
     printf("%s: float32", driverName);
     return asynSuccess;
 }

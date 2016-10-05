@@ -1,4 +1,4 @@
-# autosave R5.3	Automatically generated - DO NOT MODIFY - 161004-144427
+# autosave R5.3	Automatically generated - DO NOT MODIFY - 161004-223057
 djv:cam1:BinX 1
 djv:cam1:BinY 1
 djv:cam1:MinX 0
@@ -11,7 +11,7 @@ djv:cam1:AcquireTime 0.001
 djv:cam1:AcquirePeriod 0.005
 djv:cam1:Gain 1
 djv:cam1:FrameType 0
-djv:cam1:ImageMode 2
+djv:cam1:ImageMode 0
 djv:cam1:TriggerMode 0
 djv:cam1:NumExposures 1
 djv:cam1:NumImages 100
