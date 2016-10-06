@@ -116,32 +116,32 @@ void softDetector::startTask()
 
 asynStatus softDetector::writeInt8Array(asynUser *pasynUser, epicsInt8 *value, size_t nElements)
 {
-    printf("%s:int8", driverName);
+    printf("%s:int8\n", driverName);
     return asynSuccess;
 }
 asynStatus softDetector::writeUInt8Array(asynUser *pasynUser, epicsUInt8 *value, size_t nElements)
 {
-    printf("%s:uint8", driverName);
+    printf("%s:uint8\n", driverName);
     return asynSuccess;
 }
 asynStatus softDetector::writeInt16Array(asynUser *pasynUser, epicsInt16 *value, size_t nElements)
 {
-    printf("%s: int16", driverName);
+    printf("%s: int16\n", driverName);
     return asynSuccess;
 }
 asynStatus softDetector::writeUInt16Array(asynUser *pasynUser, epicsUInt16 *value, size_t nElements)
 {
-    printf("%s: uint16", driverName);
+    printf("%s: uint16\n", driverName);
     return asynSuccess;
 }
 asynStatus softDetector::writeInt32Array(asynUser *pasynUser, epicsInt32 *value, size_t nElements)
 {
-    printf("%s: int32", driverName);
+    printf("%s: int32\n", driverName);
     return asynSuccess;
 }
 asynStatus softDetector::writeUInt32Array(asynUser *pasynUser, epicsUInt32 *value, size_t nElements)
 {
-    printf("%s: uint32", driverName);
+    printf("%s: uint32\n", driverName);
     return asynSuccess;
 }
 asynStatus softDetector::writeFloat32Array(asynUser *pasynUser, epicsFloat32 *value, size_t nElements)
